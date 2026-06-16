@@ -47,46 +47,46 @@
 
 ## 项目结构
 
-buff_detector/
-├── CMakeLists.txt          # 构建脚本
-├── config/                 # 配置文件目录
-│   ├── detector.yaml       # 检测器参数
-│   └── tracker.yaml        # 跟踪器参数
-├── include/                # 公共头文件
-│   └── energy_detector/
-│       ├── types.hpp       # 数据结构定义
-│       ├── config.hpp      # 配置加载接口
-│       ├── detector.hpp    # 检测器接口
-│       ├── tracker.hpp     # 跟踪器接口
-│       └── utils.hpp       # 可视化工具接口
-├── src/                    # 源代码
-│   ├── config.cpp          # 配置加载实现
-│   ├── detector.cpp        # 检测器实现
-│   ├── tracker.cpp         # 跟踪器实现
-│   ├── utils.cpp           # 可视化实现
-│   └── main.cpp            # 主程序入口
-└── README.md               # 本文件
+- buff_detector/
+- ├── CMakeLists.txt          # 构建脚本
+- ├── config/                 # 配置文件目录
+- │   ├── detector.yaml       # 检测器参数
+- │   └── tracker.yaml        # 跟踪器参数
+- ├── include/                # 公共头文件
+- │   └── energy_detector/
+- │       ├── types.hpp       # 数据结构定义
+- │       ├── config.hpp      # 配置加载接口
+- │       ├── detector.hpp    # 检测器接口
+- │       ├── tracker.hpp     # 跟踪器接口
+- │       └── utils.hpp       # 可视化工具接口
+- ├── src/                    # 源代码
+- │   ├── config.cpp          # 配置加载实现
+- │   ├── detector.cpp        # 检测器实现
+- │   ├── tracker.cpp         # 跟踪器实现
+- │   ├── utils.cpp           # 可视化实现
+- │   └── main.cpp            # 主程序入口
+- └── README.md               # 本文件
 
 ---
 
 ## 算法流程
 
-输入图像 → Detector::process()
-    ├─ preprocessMask() 生成二值化掩膜
-    ├─ extractBladeCenters() 提取扇叶中心
-    └─ detectRCenter() 检测“R”标
-        ↓
-DetectorResult (扇叶中心 + R标)
-        ↓
-Tracker::update()
-    ├─ 计算初始圆心/半径
-    ├─ 第一帧特殊处理：直接初始化所有扇叶角度
-    ├─ 匈牙利匹配：关联当前帧扇叶与跟踪器
-    ├─ 角度平滑（指数移动平均）
-    ├─ 丢失扇叶的运动预测（恒定角速度）
-    └─ 生成 TrackerResult（模型圆心、半径、5个预测扇叶）
-        ↓
-可视化：drawModel() + showBladesROI()
+- 输入图像 → Detector::process()
+-     ├─ preprocessMask() 生成二值化掩膜
+-     ├─ extractBladeCenters() 提取扇叶中心
+-     └─ detectRCenter() 检测“R”标
+-         ↓
+- DetectorResult (扇叶中心 + R标)
+-         ↓
+- Tracker::update()
+-     ├─ 计算初始圆心/半径
+-     ├─ 第一帧特殊处理：直接初始化所有扇叶角度
+-     ├─ 匈牙利匹配：关联当前帧扇叶与跟踪器
+-     ├─ 角度平滑（指数移动平均）
+-     ├─ 丢失扇叶的运动预测（恒定角速度）
+-     └─ 生成 TrackerResult（模型圆心、半径、5个预测扇叶）
+-         ↓
+- 可视化：drawModel() + showBladesROI()
 
 ---
 
@@ -118,6 +118,7 @@ Tracker::update()
 项目采用清晰的 **分层解耦设计**，主要分为以下三层：
 
 ```mermaid
+
 graph TD
     A[主程序 main.cpp] --> B[配置管理 ConfigManager]
     A --> C[检测器 Detector]
@@ -133,4 +134,3 @@ graph TD
     L --> D
     J --> M[可视化 drawModel / showBladesROI]
 
----
