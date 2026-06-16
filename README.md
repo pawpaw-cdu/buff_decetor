@@ -44,6 +44,12 @@
 
 ---
 
+## 效果展示
+
+[![点击观看演示视频](screenshots/demo_thumbnail.jpg)](result.mp4)
+
+---
+
 ## 项目结构
 
 ```Plain
