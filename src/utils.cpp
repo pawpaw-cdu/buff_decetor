@@ -43,15 +43,22 @@ void drawModel(cv::Mat& img, const TrackerResult& result) {
         return;
     }
     cv::circle(img, result.model_center, 5, cv::Scalar(0, 255, 0), -1);
-    cv::circle(img, result.model_center, result.model_radius, cv::Scalar(0, 255, 0), 2);
+    //cv::circle(img, result.model_center, result.model_radius, cv::Scalar(0, 255, 0), 2);
     cv::putText(img, "Model Center: (" + std::to_string((int)result.model_center.x) + "," + std::to_string((int)result.model_center.y) + ")",
                 cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
     cv::putText(img, "Model Radius: " + std::to_string((int)result.model_radius),
                 cv::Point(10, 60), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
     cv::putText(img, "Model OK", cv::Point(10, 90), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
+
     for (const auto& blade : result.blades) {
         for (int i = 0; i < 4; ++i) {
             cv::line(img, blade.object_points[i], blade.object_points[(i+1)%4], cv::Scalar(255, 255, 255), 2);
+        }
+        for (int i = 0; i < 4; ++i){
+            cv::line(img, blade.transforme_points[i], blade.transforme_points[(i+1)%4], cv::Scalar(255, 255, 255), 2);
+        }
+        for (int i = 0; i < 4; ++i){
+            cv::line(img, blade.transforme_points[i], blade.object_points[i], cv::Scalar(255, 255, 255), 2);
         }
         cv::circle(img, blade.center, 5, cv::Scalar(0, 255, 0), -1);
         cv::line(img, result.model_center, blade.center, cv::Scalar(255, 100, 100), 1);

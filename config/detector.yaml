@@ -17,4 +17,4 @@ r_max_area: 400
 r_min_radius: 10
 r_max_radius: 35
 
-debug: 1
+debug: 0

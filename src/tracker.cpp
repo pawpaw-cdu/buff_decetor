@@ -122,7 +122,7 @@ void Tracker::predictMissing(double dt) {
 TrackerResult Tracker::generateResult(const cv::Point2f& center, float radius) {
     TrackerResult res;
     res.model_center = center;
-    res.model_radius = radius;
+    res.model_radius = 1.2*radius;
     res.valid = (radius > 0 && !trackers_.empty() && angle_initialized_[0]);
     if (!res.valid) return res;
     res.blades.resize(cfg_.num_blades);
@@ -141,10 +141,15 @@ TrackerResult Tracker::generateResult(const cv::Point2f& center, float radius) {
         res.blades[i].id = i;
         res.blades[i].angle_rad = angle;
         float sz = 50.0f;
-        res.blades[i].object_points[0] = cv::Point2f(res.blades[i].center.x + 10, res.blades[i].center.y - sz);
-        res.blades[i].object_points[1] = cv::Point2f(res.blades[i].center.x - sz + 10, res.blades[i].center.y);
-        res.blades[i].object_points[2] = cv::Point2f(res.blades[i].center.x + 10, res.blades[i].center.y + sz);
-        res.blades[i].object_points[3] = cv::Point2f(res.blades[i].center.x + sz + 10, res.blades[i].center.y);
+        res.blades[i].object_points[0] = cv::Point2f(res.blades[i].center.x , res.blades[i].center.y - sz);
+        res.blades[i].object_points[1] = cv::Point2f(res.blades[i].center.x - sz , res.blades[i].center.y);
+        res.blades[i].object_points[2] = cv::Point2f(res.blades[i].center.x , res.blades[i].center.y + sz);
+        res.blades[i].object_points[3] = cv::Point2f(res.blades[i].center.x + sz , res.blades[i].center.y);
+
+        res.blades[i].transforme_points[0] = res.blades[i].object_points[0] + cv::Point2f(20, 0);
+        res.blades[i].transforme_points[1] = res.blades[i].object_points[1] + cv::Point2f(20, 0);
+        res.blades[i].transforme_points[2] = res.blades[i].object_points[2] + cv::Point2f(20, 0);
+        res.blades[i].transforme_points[3] = res.blades[i].object_points[3] + cv::Point2f(20, 0);
     }
     return res;
 }

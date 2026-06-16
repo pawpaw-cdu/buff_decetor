@@ -93,7 +93,7 @@ bool Detector::detectRCenter(const cv::Mat& bgr, cv::Point2f& center, float& rad
         cv::minEnclosingCircle(cnt, cnt_center, cnt_radius);
         if (cnt_radius >= cfg_.r_min_radius && cnt_radius <= cfg_.r_max_radius) {
             center = cnt_center;
-            radius = cnt_radius;
+            radius = 1.2*cnt_radius;
             return true;
         }
     }

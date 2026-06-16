@@ -18,6 +18,7 @@ struct EnergyBlade {
     int id;
     float angle_rad;
     cv::Point2f object_points[4];
+    cv::Point2f transforme_points[4];
 };
 
 struct DetectorResult {
