@@ -3,7 +3,8 @@
 
 namespace energy {
 
-bool ConfigManager::load(const std::string& detector_yaml, const std::string& tracker_yaml) {
+bool ConfigManager::load(const std::string& detector_yaml, const std::string& tracker_yaml,
+                         const std::string& solvePnP_yaml) {
     try {
         // 加载检测器配置
         YAML::Node det_node = YAML::LoadFile(detector_yaml);
@@ -47,6 +48,11 @@ bool ConfigManager::load(const std::string& detector_yaml, const std::string& tr
         tracker_cfg_.match_distance_threshold = tr_node["match_distance_threshold"].as<double>();
         tracker_cfg_.num_blades = tr_node["num_blades"].as<int>();
         tracker_cfg_.jump_threshold_px = tr_node["jump_threshold_px"].as<double>();
+        
+        // 加载解算配置
+        YAML::Node solve_node = YAML::LoadFile(solvePnP_yaml);
+        solvePnP_cfg_.camera_matrix = solve_node["camera_matrix"].as<double>();
+        solvePnP_cfg_.distortion_coefficients = solve_node["dist_coeffs"].as<double>();
 
         return true;
     } catch (const std::exception& e) {
