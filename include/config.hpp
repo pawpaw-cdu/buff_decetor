@@ -6,6 +6,11 @@
 
 namespace energy {
 
+struct SolvePnPconfig {
+    std::array<double, 9> & camera_matrix;
+    std::vector<double> & distortion_coefficients;
+};
+
 struct DetectorConfig {
     int color;                   // 1:red, 0:blue
     // HSV ranges
@@ -35,11 +40,12 @@ struct TrackerConfig {
 
 class ConfigManager {
 public:
-    bool load(const std::string& detector_yaml, const std::string& tracker_yaml);
+    bool load(const std::string& detector_yaml, const std::string& tracker_yaml, const std::string& solvePnP_yaml);
     const DetectorConfig& getDetector() const { return detector_cfg_; }
     const TrackerConfig& getTracker() const { return tracker_cfg_; }
-
+    const solvePnPconfig& getSolvePnP() const {return solvePnP_cfg_;}
 private:
+    SolvePnP solvePnP_cfg_;
     DetectorConfig detector_cfg_;
     TrackerConfig tracker_cfg_;
 };
